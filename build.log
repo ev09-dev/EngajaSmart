@@ -1,0 +1,28 @@
+ WARN  Unsupported engine: wanted: {"node":">=20.0.0"} (current: {"node":"v18.19.1","pnpm":"10.34.5"})
+
+> engajasmart@1.0.0 build /home/evaristo/projetos/EngajaSmart
+> next build
+
+ ⚠ Invalid next.config.mjs options detected: 
+ ⚠     Unrecognized key(s) in object: 'swcMinify'
+ ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+   ▲ Next.js 15.3.8
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 3.3min
+   Linting and checking validity of types ...
+Failed to compile.
+
+./app/api/webhooks/stripe/route.ts:5:16
+Type error: Expected 2 arguments, but got 1.
+
+[0m [90m 3 |[39m [36mimport[39m { supabase } [36mfrom[39m [32m'@/lib/supabase'[39m[0m
+[0m [90m 4 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 5 |[39m [36mconst[39m stripe [33m=[39m [36mnew[39m [33mStripe[39m(process[33m.[39menv[33m.[39m[33mSTRIPE_SECRET_KEY[39m[33m![39m)[0m
+[0m [90m   |[39m                [31m[1m^[22m[39m[0m
+[0m [90m 6 |[39m[0m
+[0m [90m 7 |[39m [36mconst[39m priceIdToPlan[33m:[39m { [key[33m:[39m string][33m:[39m string } [33m=[39m {[0m
+[0m [90m 8 |[39m   [32m'price_1U9j6wIKGPaG04MI3r2Nxaoo'[39m[33m:[39m [32m'starter'[39m[33m,[39m[0m
+Next.js build worker exited with code: 1 and signal: null
+ ELIFECYCLE  Command failed with exit code 1.

@@ -2,10 +2,15 @@
   "name": "engajasmart",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  },
   "scripts": {
     "dev": "node dev-https.js",
     "build": "next build",
     "start": "next start",
+    "start:standalone": "node server.js",
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",

@@ -16,6 +16,11 @@ build/
 .env.production.local
 .env.development.local
 
+# Certificados SSL locais (NÃO COMMITAR!)
+*.pem
+*.key
+localhost*.pem
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
@@ -40,3 +45,7 @@ Thumbs.db
 
 # WSL específico
 .wslconfig
+
+# Arquivos específicos de deployment
+railway.toml
+scripts/deploy.sh
