@@ -2,7 +2,7 @@
 
 import { CommentsTab } from './tabs/CommentsTab'
 import { AnalyticsTab } from './tabs/AnalyticsTab'
-import { AccountsTab } from './tabs/AccountsTab'
+import  AccountsTab  from './tabs/AccountsTab'
 import { ToneTab } from './tabs/ToneTab'
 import { AutomationTab } from './tabs/AutomationTab'
 
