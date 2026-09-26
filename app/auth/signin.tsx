@@ -10,7 +10,7 @@ export default function SignIn() {
   const [isSignUp, setIsSignUp] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { signIn, signUp } = useAuth()
+  const { signIn} = useAuth()
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,7 +32,7 @@ export default function SignIn() {
     setLoading(true)
 
     try {
-      await signUp(email, password)
+      await signIn(email, password)
     } catch (err: any) {
       setError(err.message || 'Failed to sign up')
     } finally {
