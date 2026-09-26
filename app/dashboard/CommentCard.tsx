@@ -101,7 +101,7 @@ export default function CommentCard({ comment, onResponseGenerated }: CommentCar
 
   const getPlatformIcon = () => {
     return comment.platform === 'instagram' ? (
-      <Instagram size={16} className="text-pink-500" />
+      <Heart size={16} className="text-pink-500" />
     ) : (
       <MessageCircle size={16} className="text-black" />
     )
