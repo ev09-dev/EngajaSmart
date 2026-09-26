@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { supabase } from '@/lib/supabase'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: Stripe.LatestApiVersion,
+})
 
 const priceIdToPlan: { [key: string]: string } = {
   'price_1U9j6wIKGPaG04MI3r2Nxaoo': 'starter',
@@ -57,15 +59,19 @@ export async function POST(request: NextRequest) {
      console.log('✅ Email:', session.customer_email)
      console.log('✅ Subscription:', session.subscription)
       
-      if (session.customer_email && session.subscription) {
-        const subscription = await stripe.subscriptions.retrieve(
-          session.subscription as string
-        )
-        const priceId = subscription.items.data[0]?.price.id
-        
-        // Atualiza SEM ESPERAR
-        updateUserPlan(session.customer_email, priceId || '')
-      }
+     if (session.customer_email && session.subscription) {
+  const subscription = await stripe.subscriptions.retrieve(
+    session.subscription as string
+  )
+  const priceId = subscription.items.data[0]?.price.id
+
+  // ✅ Await it, or at least catch errors
+  try {
+    await updateUserPlan(session.customer_email, priceId || '')
+  } catch (err) {
+    console.error('❌ updateUserPlan failed:', err)
+  }
+}
     }
 
     return response
