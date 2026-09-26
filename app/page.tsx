@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, Zap, BarChart3, Shield, Sparkles, Instagram, Music } from 'lucide-react'
+import { ArrowRight, Zap, BarChart3, Shield, Sparkles, Heart, Music } from 'lucide-react'
 
 export default function Home() {
   return (
