@@ -3,7 +3,7 @@ import Stripe from 'stripe'
 import { supabase } from '@/lib/supabase'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: Stripe.LatestApiVersion,
+  apiVersion: '2023-10-16', 
 })
 
 const priceIdToPlan: { [key: string]: string } = {
