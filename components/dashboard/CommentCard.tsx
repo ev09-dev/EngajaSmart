@@ -20,6 +20,15 @@ interface CommentCardProps {
   onResponseGenerated: (commentId: string) => void
 }
 
+// components/dashboard/CommentCard.tsx
+const InstagramIcon = ({ size = 16, className = '' }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+  </svg>
+);
+
 export default function CommentCard({ comment, onResponseGenerated }: CommentCardProps) {
   const [response, setResponse] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
@@ -101,7 +110,7 @@ export default function CommentCard({ comment, onResponseGenerated }: CommentCar
 
   const getPlatformIcon = () => {
     return comment.platform === 'instagram' ? (
-      <Instagram size={16} className="text-pink-500" />
+      <InstagramIcon size={16} className="text-pink-500" />
     ) : (
       <MessageCircle size={16} className="text-black" />
     )

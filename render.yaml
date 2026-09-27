@@ -1,0 +1,61 @@
+services:
+  - type: web
+    name: engajasmart
+    runtime: node
+    plan: starter            # troque para "free" se quiser testar
+    region: oregon           # ou ohio / frankfurt
+    branch: main
+    autoDeploy: true
+    buildCommand: |
+      corepack enable
+      pnpm install --frozen-lockfile
+      pnpm build
+    startCommand: pnpm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.11.0
+      - key: PNPM_VERSION
+        value: 8.15.0
+      - key: NODE_ENV
+        value: production
+      # ---- Supabase ----
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        sync: false
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      # ---- Stripe ----
+      - key: STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      # ---- Resend ----
+      - key: RESEND_API_KEY
+        sync: false
+      - key: RESEND_FROM_EMAIL
+        sync: false
+      # ---- Instagram / TikTok ----
+      - key: INSTAGRAM_APP_ID
+        sync: false
+      - key: INSTAGRAM_APP_SECRET
+        sync: false
+      - key: INSTAGRAM_REDIRECT_URI
+        sync: false
+      - key: TIKTOK_CLIENT_KEY
+        sync: false
+      - key: TIKTOK_CLIENT_SECRET
+        sync: false
+      - key: TIKTOK_REDIRECT_URI
+        sync: false
+      # ---- AI ----
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: AI_SERVICE_BASE_URL
+        value: https://openrouter.ai/api/v1
+      # ---- URL pública ----
+      - key: NEXT_PUBLIC_APP_URL
+        sync: false
