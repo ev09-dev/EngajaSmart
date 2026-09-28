@@ -1,24 +1,36 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useEffect, useState } from 'react'
-import { supabase } from '@/utils/supabase'
+import { supabase } from '@/lib/supabase'
+
+interface User {
+  id: string
+  email: string
+  plan: string
+}
 
 export default function UsersPage() {
-  const [users, setUsers] = useState<any[]>([])
+  const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const { data, error } = await supabase
-        .from('users')
-        .select('*')
-      
-      if (error) {
-        console.error('Erro:', error)
-      } else {
-        setUsers(data)
+      try {
+        const { data, error } = await supabase.from('users').select('*')
+
+        if (error) {
+          console.error('Erro:', error)
+          return
+        }
+
+        setUsers(data ?? [])
+      } catch (err) {
+        console.error('Erro inesperado:', err)
+      } finally {
+        setLoading(false)
       }
-      setLoading(false)
     }
 
     fetchUsers()
@@ -31,7 +43,9 @@ export default function UsersPage() {
       <h1>Usuários</h1>
       <ul>
         {users.map((user) => (
-          <li key={user.id}>{user.email} - {user.plan}</li>
+          <li key={user.id}>
+            {user.email} - {user.plan}
+          </li>
         ))}
       </ul>
     </div>
