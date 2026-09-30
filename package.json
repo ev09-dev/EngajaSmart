@@ -2,10 +2,10 @@
   "name": "engajasmart",
   "version": "1.0.0",
   "private": true,
-  "engines": {
-    "node": "20.20.2",
-    "pnpm": ">=8.0.0"
-  },
+ "engines": {
+  "node": "20.20.2",
+  "pnpm": ">=9.0.0 <10"
+},
 "scripts": {
   "dev": "next dev",
   "dev:https": "node dev-https.js",
