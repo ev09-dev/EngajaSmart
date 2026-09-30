@@ -2,6 +2,6 @@ allowBuilds:
   esbuild: true
   sharp: true
   unrs-resolver: true
-  @parcel/watcher: true
+  parcel/watcher: true
   core-js: true
   
