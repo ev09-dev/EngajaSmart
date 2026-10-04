@@ -1,13 +1,11 @@
-// app/deletion-status/page.tsx
-
 interface DeletionStatusPageProps {
-  searchParams: { id?: string };
+  searchParams: Promise<{ id?: string }>;
 }
 
-export default function DeletionStatusPage({
+export default async function DeletionStatusPage({
   searchParams,
 }: DeletionStatusPageProps) {
-  const confirmationCode = searchParams.id ?? '—';
+  const { id: confirmationCode = '—' } = await searchParams;
 
   return (
     <main className="min-h-screen flex items-center justify-center p-8 bg-gray-50">
