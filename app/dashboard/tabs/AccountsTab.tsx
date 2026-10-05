@@ -90,7 +90,7 @@ export default function AccountsTab() {
               disabled={connecting}
               className="w-full bg-white text-pink-600 py-3 rounded-lg font-bold hover:bg-pink-50 transition disabled:opacity-50"
             >
-            <a https://www.instagram.com/oauth/authorize?force_reauth=true&client_id=1241901711414589&redirect_uri=https://engajasmart.com/api/auth/instagram/callback&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish%2Cinstagram_business_manage_insights > {connecting ? 'Conectando...' : 'Conectar Instagram'} </a>
+            <a href="https://www.instagram.com/oauth/authorize?force_reauth=true&client_id=1241901711414589&redirect_uri=https://engajasmart.com/api/auth/instagram/callback&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish%2Cinstagram_business_manage_insights "> {connecting ? 'Conectando...' : 'Conectar Instagram'} </a>
             </button>
           </div>
 
