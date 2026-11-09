@@ -16,7 +16,8 @@ export default function AccountsTab() {
   const { user } = useAuth()
   const [accounts, setAccounts] = useState<SocialAccount[]>([])
   const [loading, setLoading] = useState(true)
-  const [connecting, setConnecting] = useState(false)
+  const [connectingInstagram, setConnectingInstagram] = useState(false)
+  const [connectingTikTok, setConnectingTikTok] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -41,15 +42,15 @@ export default function AccountsTab() {
   }
 }
 
-  const connectInstagram = () => {
-    setConnecting(true)
-    window.location.href = '/api/auth/instagram'
-  }
+ const connectInstagram = () => {
+  setConnectingInstagram(true)
+  window.location.href = '/api/auth/instagram'
+}
 
-  const connectTikTok = () => {
-    setConnecting(true)
-    window.location.href = '/api/auth/tiktok'
-  }
+const connectTikTok = () => {
+  setConnectingTikTok(true)
+  window.location.href = '/api/auth/tiktok'
+}
 
   const deleteAccount = async (id: string) => {
     if (!confirm('Tem certeza que deseja desconectar?')) return
@@ -85,12 +86,10 @@ export default function AccountsTab() {
               </div>
             </div>
 
-            <button
-              onClick={connectInstagram}
-              disabled={connecting}
+            <button type="button" onClick={connectInstagram} disabled={connectingInstagram}
               className="w-full bg-white text-pink-600 py-3 rounded-lg font-bold hover:bg-pink-50 transition disabled:opacity-50"
             >
-            <a href="https://www.instagram.com/oauth/authorize?force_reauth=true&client_id=1241901711414589&redirect_uri=https://engajasmart.com/api/auth/instagram/callback&response_type=code&scope=instagram_business_basic "> {connecting ? 'Conectando...' : 'Conectar Instagram'} </a>
+             {connectingInstagram ? 'Conectando...' : 'Conectar Instagram'}
             </button>
           </div>
 
@@ -110,13 +109,11 @@ export default function AccountsTab() {
               </div>
             </div>
 
-            <button
-              onClick={connectTikTok}
-              disabled={connecting}
-              className="w-full bg-white text-black py-3 rounded-lg font-bold hover:bg-gray-100 transition disabled:opacity-50"
-            >
-              {connecting ? 'Conectando...' : 'Conectar TikTok'}
-            </button>
+           <button type="button" onClick={connectTikTok} disabled={connectingTikTok}
+            className="w-full bg-white text-black py-3 rounded-lg font-bold hover:bg-gray-100 transition disabled:opacity-50"
+           > 
+            {connectingTikTok ? 'Conectando...' : 'Conectar TikTok'}
+           </button>
           </div>
         </div>
       </div>
