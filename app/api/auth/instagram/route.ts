@@ -8,8 +8,11 @@ export async function GET(request: NextRequest) {
     process.env.NEXT_PUBLIC_APP_URL ||
     `${request.nextUrl.protocol}//${request.nextUrl.host}`
 
-  // 🔑 1. Pega o user_id da sessão do Supabase (via cookies)
   const cookieStore = await cookies()
+
+  // Array para acumular cookies que o Supabase queira definir
+  const pendingCookies: { name: string; value: string; options: any }[] = []
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -19,9 +22,8 @@ export async function GET(request: NextRequest) {
           return cookieStore.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            cookieStore.set(name, value, options)
-          })
+          // Em vez de cookieStore.set(), acumulamos para aplicar no response
+          cookiesToSet.forEach((cookie) => pendingCookies.push(cookie))
         },
       },
     }
@@ -31,25 +33,36 @@ export async function GET(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (!user) {
-    return NextResponse.redirect(new URL('/login?error=not_authenticated', baseUrl))
+  // Função auxiliar para criar a resposta e aplicar os cookies acumulados
+  const buildResponse = (response: NextResponse) => {
+    pendingCookies.forEach(({ name, value, options }) => {
+      response.cookies.set(name, value, options)
+    })
+    return response
   }
 
-  // 🔑 2. Codifica o user_id em base64 para o state
+  if (!user) {
+    const loginUrl = new URL('/login?error=not_authenticated', baseUrl)
+    return buildResponse(NextResponse.redirect(loginUrl))
+  }
+
+  // Codifica o user_id em base64 para o state
   const state = Buffer.from(
     JSON.stringify({
       uid: user.id,
-      ts: Date.now(), // timestamp para expiração simples
+      ts: Date.now(),
     })
   ).toString('base64url')
 
-  // 🔑 3. Monta a URL do OAuth do Instagram
+  // Monta a URL do OAuth do Instagram
   const instagramAuthUrl = new URL('https://api.instagram.com/oauth/authorize')
   instagramAuthUrl.searchParams.set('client_id', process.env.INSTAGRAM_APP_ID!)
   instagramAuthUrl.searchParams.set('redirect_uri', process.env.INSTAGRAM_REDIRECT_URI!)
   instagramAuthUrl.searchParams.set('scope', 'user_profile,user_media')
   instagramAuthUrl.searchParams.set('response_type', 'code')
   instagramAuthUrl.searchParams.set('state', state)
+  // Adicione #weblink para evitar sequestro pelo app do Instagram em mobile
+  // instagramAuthUrl.hash = 'weblink'
 
-  return NextResponse.redirect(instagramAuthUrl.toString())
+  return buildResponse(NextResponse.redirect(instagramAuthUrl.toString()))
 }
